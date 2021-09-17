@@ -1,7 +1,7 @@
 package com.springframework.samples.petclinic.pet;
 
 public class URIConstants {
-	public static final String OWNER_URL = "http://localhost:8094";
+	public static final String OWNER_URL = "http://petclinic-owners:8080";
 	public static final String ALL_OWNER = "/owners";
 	public static final String NEW_OWNER = "/owners/new";
 	public static final String FIND_OWNER = "/owners/find";
