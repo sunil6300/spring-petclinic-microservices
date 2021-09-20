@@ -2,6 +2,7 @@ FROM java:8-alpine
 VOLUME /opt/egbtm
 #ADD data /
 COPY target/spring-petclinic-1.5.1.jar /app/
+COPY changelog.txt /opt/
 
 WORKDIR /app
 
