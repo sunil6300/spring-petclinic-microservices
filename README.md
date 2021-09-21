@@ -87,9 +87,13 @@
     
 ## Delete Microservices From OpenShift
     # Petclinic App
-    oc delete -f k8s/app/namespace_and_service_account/.
     oc delete -f k8s/app/db/.
     oc delete -f k8s/app/.
+
+## Delete App Namespaces From OpenShift - Full Clean-Up
+
+    # Petclinic App
+    oc delete -f k8s/app/namespace_and_service_account/.
 
 ## Delete eG Agent From OpenShift
     # eG Agent
