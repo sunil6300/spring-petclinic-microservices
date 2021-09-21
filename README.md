@@ -98,3 +98,12 @@
 ## Delete eG Agent From OpenShift
     # eG Agent
     oc delete -f k8s/eg-agent/.
+    
+    
+# To Deploy App Only
+   - If you dont want to build and dont want to monitor using eG, use below cmd to try out Petclinic app.
+
+         oc apply -f k8s/plain-app/namespace_and_service_account/.
+         oc apply -f k8s/plain-app/db/.
+         oc apply -f k8s/plain-app/.
+
