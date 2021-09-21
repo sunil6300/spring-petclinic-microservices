@@ -15,7 +15,9 @@
 
     git clone https://github.com/eginnovations/spring-petclinic-microservices.git
     cd spring-petclinic-microservices
-
+    
+## [Optional] Update eG RUM Script In The Frontend App
+    vi spring-petclinic/src/main/resources/templates/fragments/layout.html
 
 ## Build Application Jars
 
@@ -51,10 +53,7 @@
     
 ## Update eG Manager Details In The eG Agent Daemonset Yaml
     vi k8s/eg-agent/egagent.yaml
-    
-## [Optional] Update eG RUM Script In The Frontend App
-    vi spring-petclinic/src/main/resources/templates/fragments/layout.html
-    
+        
 ## Deploy eG Agent Into Kubernetes/OpenShift
     kubectl apply -f k8s/eg-agent/.
  
