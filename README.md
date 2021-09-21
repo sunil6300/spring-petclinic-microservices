@@ -1,15 +1,20 @@
 # Spring Petclinic App - SpringBoot Based Microservices
+ Deploy petclinic app with eG BTM monitoring enabled.
+ 
 ## Pre-Requisites
  - git
  - java 8
  - maven 3.5.0+
  - docker
- - docker login : docker should be pre-configured with docker registry to push the images
+   - Ensure that docker cli pre-configured with docker registry to push the images.
+ - kubectl/ocp 
+   - Ensure that kubectl/ocp cli pre-configured with cluster.
 
    
 ## Clone
 
     git clone https://github.com/eginnovations/spring-petclinic-microservices.git
+    cd spring-petclinic-microservices
 
 
 ## Build Application Jars
@@ -37,4 +42,29 @@
     docker push egapm/spring-petclinic:vets-svc  
     docker push egapm/spring-petclinic:visits-svc  
     docker push egapm/spring-petclinic:mysql-db
+    
+## Update eG Manager Details In The eG Agent Daemonset Yaml
+    vi k8s/eg-agent/egagent.yaml
+    
+## [Optional] Update eG RUM Script In The Frontend App
+    vi spring-petclinic/src/main/resources/templates/fragments/layout.html
+    
+## Deploy eG Agent Into Kubernetes/OpenShift
+    kubectl apply -f k8s/eg-agent/.
+ 
+## Deploy Microservices Into Kubernetes/OpenShift
+    
+    # Petclinic App
+    kubectl apply -f k8s/app/namespace_and_service_account/.
+    kubectl apply -f k8s/app/db/.
+    kubectl apply -f k8s/app/.
+    
+## Delete Microservices From Kubernetes/OpenShift
+    # Petclinic App
+    kubectl delete -f k8s/app/namespace_and_service_account/.
+    kubectl delete -f k8s/app/db/.
+    kubectl delete -f k8s/app/.
 
+## Delete eG Agent From Kubernetes/OpenShift
+    # eG Agent
+    kubectl delete -f k8s/eg-agent/.
