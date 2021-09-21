@@ -26,6 +26,14 @@
     mvn clean package -f PetService/pom.xml  
     mvn clean package -f VetService/pom.xml  
     mvn clean package -f VisitService/pom.xml
+    
+## Verify Application Jars
+
+    ls -alth spring-petclinic/target/*.jar 
+    ls -alth OwnerService/target/*.jar 
+    ls -alth PetService/target/*.jar 
+    ls -alth VetService/target/*.jar 
+    ls -alth VisitService/target/*.jar 
 
 ## Build Docker Images
 
