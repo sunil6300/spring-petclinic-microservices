@@ -43,6 +43,12 @@
     docker push egapm/spring-petclinic:visits-svc  
     docker push egapm/spring-petclinic:mysql-db
     
+## Create PullSecret To Avoid Docker Hub Pull Request Limitation    
+
+    kubectl create secret generic regcred \
+    --from-file=.dockerconfigjson=/root/.docker/config.json \
+    --type=kubernetes.io/dockerconfigjson
+    
 ## Update eG Manager Details In The eG Agent Daemonset Yaml
     vi k8s/eg-agent/egagent.yaml
     
