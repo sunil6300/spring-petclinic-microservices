@@ -1,3 +1,16 @@
+# Spring Petclinic App - SpringBoot Based Microservices
+## Pre-Requisites
+ - git
+ - java 8
+ - maven 3.5.0+
+ - docker
+ - docker login : docker should be pre-configured with docker registry to push the images
+
+   
+## Clone
+
+    git clone https://github.com/eginnovations/spring-petclinic-microservices.git
+
 
 ## Build Application Jars
 
@@ -24,5 +37,4 @@
     docker push egapm/spring-petclinic:vets-svc  
     docker push egapm/spring-petclinic:visits-svc  
     docker push egapm/spring-petclinic:mysql-db
-
 
