@@ -36,7 +36,7 @@ spec:
       serviceAccountName: spring-petclinic-sa
       containers:
       - name:  petclinic-frontend
-        image: egapm/spring-petclinic:frontend-svc_v0.1
+        image: egapm/spring-petclinic:frontend-svc
         imagePullPolicy: Always
         ports:
          - containerPort: 8080
