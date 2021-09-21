@@ -1,4 +1,4 @@
-# Spring Petclinic App - SpringBoot Based Microservices
+# Spring Petclinic App - SpringBoot Based Microservices On OpenShift
  Deploy petclinic app with eG BTM monitoring enabled.
  
 ## Pre-Requisites
@@ -7,8 +7,8 @@
  - maven 3.5.0+
  - docker
    - Ensure that docker cli pre-configured with docker registry to push the images.
- - kubectl/ocp 
-   - Ensure that kubectl/ocp cli pre-configured with cluster.
+ - oc
+   - Ensure that oc cli pre-configured with cluster.
 
    
 ## Clone
@@ -55,29 +55,42 @@
     
 ## Create PullSecret To Avoid Docker Hub Pull Request Limitation    
 
-    kubectl create secret generic regcred \
+    oc create secret generic regcred \
     --from-file=.dockerconfigjson=/root/.docker/config.json \
     --type=kubernetes.io/dockerconfigjson
     
 ## Update eG Manager Details In The eG Agent Daemonset Yaml
     vi k8s/eg-agent/egagent.yaml
         
-## Deploy eG Agent Into Kubernetes/OpenShift
-    kubectl apply -f k8s/eg-agent/.
+## Deploy eG Agent Into OpenShift
+    oc apply -f k8s/eg-agent/.
  
-## Deploy Microservices Into Kubernetes/OpenShift
+## Deploy Microservices Into OpenShift
     
     # Petclinic App
-    kubectl apply -f k8s/app/namespace_and_service_account/.
-    kubectl apply -f k8s/app/db/.
-    kubectl apply -f k8s/app/.
+    oc apply -f k8s/app/namespace_and_service_account/.
+    oc apply -f k8s/app/db/.
+    oc apply -f k8s/app/.
     
-## Delete Microservices From Kubernetes/OpenShift
-    # Petclinic App
-    kubectl delete -f k8s/app/namespace_and_service_account/.
-    kubectl delete -f k8s/app/db/.
-    kubectl delete -f k8s/app/.
-
-## Delete eG Agent From Kubernetes/OpenShift
+## Verify Pods
+    
     # eG Agent
-    kubectl delete -f k8s/eg-agent/.
+    oc get pods -n egagent
+    
+    # Petclinic App
+    oc get pods -n spring-petclinic
+
+## Get URL To Access The App
+    
+    # Petclinic App
+    oc get routes -n spring-petclinic
+    
+## Delete Microservices From OpenShift
+    # Petclinic App
+    oc delete -f k8s/app/namespace_and_service_account/.
+    oc delete -f k8s/app/db/.
+    oc delete -f k8s/app/.
+
+## Delete eG Agent From OpenShift
+    # eG Agent
+    oc delete -f k8s/eg-agent/.
