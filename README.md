@@ -1,5 +1,9 @@
-# Spring Petclinic App - SpringBoot Based Microservices On OpenShift
+## Spring Petclinic App - SpringBoot Based Microservices On OpenShift
  Deploy petclinic app with eG BTM monitoring enabled.
+ 
+ ## eG Service Topology
+
+![topology](https://github.com/eginnovations/spring-petclinic-microservices/blob/master/docs/petclinic-service-topology.png)
  
 ## Pre-Requisites
  - git
@@ -112,7 +116,5 @@
          oc apply -f k8s/plain-app/db/.
          oc apply -f k8s/plain-app/.
 
-## eG Service Topology
 
-![enter image description here](https://github.com/eginnovations/spring-petclinic-microservices/blob/master/docs/petclinic-service-topology.png)
 
