@@ -35,8 +35,11 @@
     ls -alth VetService/target/*.jar 
     ls -alth VisitService/target/*.jar 
 
-## Build Docker Images
 
+
+## Build Docker Images
+  Note: **egapm** is a docker hub namespace name, replace with yours. 
+  
     docker build --squash -t egapm/spring-petclinic:frontend-svc -f spring-petclinic/Dockerfile spring-petclinic/.  
     docker build --squash -t egapm/spring-petclinic:owners-svc -f OwnerService/Dockerfile OwnerService/.  
     docker build --squash -t egapm/spring-petclinic:pets-svc -f PetService/Dockerfile PetService/.  
@@ -66,7 +69,8 @@
     oc apply -f k8s/eg-agent/.
  
 ## Deploy Microservices Into OpenShift
-    
+   Note: Update your new image name in all the YAMLs. 
+   
     # Petclinic App
     oc apply -f k8s/app/namespace_and_service_account/.
     oc apply -f k8s/app/db/.
@@ -102,6 +106,7 @@
     
 # To Deploy App Only
    - If you dont want to build and dont want to monitor using eG, use below cmd to try out Petclinic app.
+   Note: Update your new image name in all the YAMLs. 
 
          oc apply -f k8s/plain-app/namespace_and_service_account/.
          oc apply -f k8s/plain-app/db/.
