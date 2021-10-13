@@ -112,3 +112,7 @@
          oc apply -f k8s/plain-app/db/.
          oc apply -f k8s/plain-app/.
 
+## eG Service Topology
+
+![enter image description here](https://github.com/eginnovations/spring-petclinic-microservices/blob/master/docs/petclinic-service-topology.png)
+
