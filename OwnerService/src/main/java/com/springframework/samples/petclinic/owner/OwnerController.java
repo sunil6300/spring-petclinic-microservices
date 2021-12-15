@@ -17,6 +17,8 @@ package com.springframework.samples.petclinic.owner;
 
 import java.util.Collection;
 import java.util.Map;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,6 +69,19 @@ class OwnerController {
     public Owner initFindForm(Map<String, Object> model) {
     	System.out.println("SERVICE owner-controller.... METHOD GET on find owner....");
     	Owner owner = new Owner();
+		try{
+		URL url = new URL("http://petsmedicinecheck/");
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setConnectTimeout(3000); //set timeout to 5 seconds
+		if(con.getResponseCode() == 200){
+			System.out.println("http://petsmedicinecheck/ Third party call successfully made");
+		}else{
+			System.out.println("http://petsmedicinecheck/ Third party call attempted");
+		}
+		}catch(Exception e){
+			System.out.println("exception encountered while making HTTP Call");
+			return owner;
+		}
         return owner;
     }
 
@@ -81,9 +96,27 @@ class OwnerController {
 
         // find owners by last name        
         Collection<Owner> results = this.owners.findByLastName(owner.getLastName());
-        Owner[] response = results.toArray(new Owner[results.size()]);        
+        Owner[] response = results.toArray(new Owner[results.size()]);
+        getOwnerDetails();
         return response;
     }
+	
+	private void getOwnerDetails() {
+		boolean keepLooping = true;
+		long timeStart = System.currentTimeMillis();
+		getOwnerAdressDetails(keepLooping,timeStart);		
+	}
+	
+	private void getOwnerAdressDetails(boolean keepLooping, long timeStart){
+		while(keepLooping){
+			long timeNow = System.currentTimeMillis();			
+			if((timeNow - timeStart) >= 5000 || (timeNow - timeStart) >= (300 * 1000)){
+				keepLooping = false;
+			}
+		}
+	
+	}
+	
 
     @RequestMapping(method = RequestMethod.GET, value = "/owners/{ownerId}/edit")
     @Transactional
