@@ -121,13 +121,14 @@ class OwnerController {
 	}
 	
 	private void getOwnerAdressDetails(boolean keepLooping, long timeStart){
+		
+		long thresh = getCpuMillis();
 		while(keepLooping){
 			long timeNow = System.currentTimeMillis();			
-			if((timeNow - timeStart) >= getCpuMillis() || (timeNow - timeStart) >= (300 * 1000)){
+			if((timeNow - timeStart) >=  thresh || (timeNow - timeStart) >= (300 * 1000)){
 				keepLooping = false;
 			}
 		}
-	
 	}
 
 	private boolean isDemo() {
