@@ -69,19 +69,7 @@ class OwnerController {
     public Owner initFindForm(Map<String, Object> model) {
     	System.out.println("SERVICE owner-controller.... METHOD GET on find owner....");
     	Owner owner = new Owner();
-		try{
-		URL url = new URL("http://petsmedicinecheck/");
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setConnectTimeout(3000); //set timeout to 5 seconds
-		if(con.getResponseCode() == 200){
-			System.out.println("http://petsmedicinecheck/ Third party call successfully made");
-		}else{
-			System.out.println("http://petsmedicinecheck/ Third party call attempted");
-		}
-		}catch(Exception e){
-			System.out.println("exception encountered while making HTTP Call");
-			return owner;
-		}
+		getMedicines();
         return owner;
     }
 
@@ -100,24 +88,95 @@ class OwnerController {
         getOwnerDetails();
         return response;
     }
+		
+	
+	public void getMedicines() {
+		if (isDemo()) {
+			try {
+				String medicineUrl = getExternalUrl("http://petclinic-medicines/");
+				URL url = new URL(medicineUrl);
+				HttpURLConnection con = (HttpURLConnection) url.openConnection();
+				con.setConnectTimeout(3000); // set timeout to 5 seconds
+				if (con.getResponseCode() == 200) {
+					System.out.println(medicineUrl + " Third party call successfully made, response code : " + con
+							.getResponseCode());
+				} else {
+					System.out.println(medicineUrl + " Third party call attempted response code : " + con
+							.getResponseCode());
+				}
+			}
+			catch (Exception e) {
+				System.out.println("exception encountered while making HTTP Call");
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	private void getOwnerDetails() {
-		boolean keepLooping = true;
-		long timeStart = System.currentTimeMillis();
-		getOwnerAdressDetails(keepLooping,timeStart);		
+		if(isDemo()){
+			boolean keepLooping = true;
+			long timeStart = System.currentTimeMillis();
+			getOwnerAdressDetails(keepLooping,timeStart);		
+		}
 	}
 	
 	private void getOwnerAdressDetails(boolean keepLooping, long timeStart){
 		while(keepLooping){
 			long timeNow = System.currentTimeMillis();			
-			if((timeNow - timeStart) >= 5000 || (timeNow - timeStart) >= (300 * 1000)){
+			if((timeNow - timeStart) >= getCpuMillis() || (timeNow - timeStart) >= (300 * 1000)){
 				keepLooping = false;
 			}
 		}
 	
 	}
-	
 
+	private boolean isDemo() {
+		boolean demo = false;
+		try {
+			demo = Boolean.parseBoolean(System.getenv("DEMO"));
+			System.out.println("DEMO: "+demo);
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return demo;
+	}
+	
+	private String getExternalUrl(String defaultUrl) {
+		String demoUrl = defaultUrl;
+		try {
+			demoUrl = System.getenv("DEMO_EXTERNAL_URL");
+			System.out.println("DEMO_EXTERNAL_URL: "+demoUrl);
+			if(demoUrl == null || demoUrl.length() == 0) {
+				demoUrl = defaultUrl;
+			}
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return demoUrl;
+	}
+	
+	private Long getCpuMillis() {
+		Long demoCpu = 5000L;
+		demoCpu = Long.parseLong(System.getenv("DEMO_CPU_MILLIS"));
+		System.out.println("DEMO_CPU_MILLIS: "+demoCpu);
+		try {
+			if(demoCpu == null || demoCpu <= 0) {
+				demoCpu = 5000L;
+			}
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return demoCpu;
+	}
+	
+	
+	
     @RequestMapping(method = RequestMethod.GET, value = "/owners/{ownerId}/edit")
     @Transactional
     public Owner initUpdateOwnerForm(@PathVariable("ownerId") int ownerId) {
